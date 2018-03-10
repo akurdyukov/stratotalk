@@ -2,7 +2,7 @@
 
 type Substitute = {
   id: string,
-  text: string,
+  text: Array<string>,
 }
 
 type Variant = {
@@ -28,11 +28,12 @@ type Scenario = {
 const exampleScenario: Scenario = {
   id: 'scenario1',
   name: 'Иностранная команда',
-  text: 'Тут будет текст и вот постановка {{subst1}}. А еще есть постановка, зависящая от варианта роли: {{subst2}}.',
+  text: `Тут будет текст и вот постановка {{subst1}}. А еще есть постановка, зависящая от варианта 
+    роли: {{subst2}}. А еще нам нужны постановки для второй роли, например {{second}}.`,
   substitutions: [
     {
       id: 'subst1',
-      text: 'Подставленный текст',
+      text: ['Подставленный текст (1)', 'Подставленный текст (2)'],
     },
   ],
   roles: [
@@ -46,7 +47,7 @@ const exampleScenario: Scenario = {
           substitutions: [
             {
               id: 'subst2',
-              text: 'Опытный менеджер',
+              text: ['Опытный менеджер', 'Супер-бизон'],
             },
           ],
         },
@@ -56,7 +57,7 @@ const exampleScenario: Scenario = {
           substitutions: [
             {
               id: 'subst2',
-              text: 'Молодой менеджер',
+              text: ['Молодой менеджер', 'Бывший программист'],
             },
           ],
         },
@@ -71,8 +72,8 @@ const exampleScenario: Scenario = {
           description: 'Опытный, бородатый и нелюдимый',
           substitutions: [
             {
-              id: 'subst2',
-              text: 'Опытный менеджер',
+              id: 'second',
+              text: ['Вторая подстановка (1.1)', 'Вторая подстановка (1.2)'],
             },
           ],
         },
@@ -81,8 +82,8 @@ const exampleScenario: Scenario = {
           description: 'Все круто, чо?!',
           substitutions: [
             {
-              id: 'subst2',
-              text: 'Молодой менеджер',
+              id: 'second',
+              text: ['Вторая подстановка (2.1)', 'Вторая подстановка (2.2)'],
             },
           ],
         },

@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Segment, Container, Header } from 'semantic-ui-react';
+import { Segment, Header } from 'semantic-ui-react';
 
 import AppHeader from '../../components/Header';
 import Feature from '../../components/Feature';
 
 import actions from './actions';
+import Scenario from './components/Scenario';
+
 
 class Scenarios extends React.PureComponent {
   static propTypes = {
@@ -25,11 +27,7 @@ class Scenarios extends React.PureComponent {
           <Header as="h1">Сценарии</Header>
 
           {this.props.scenarios.all.map((scenario) => (
-            <Container text key={scenario.id}>
-              <Header as="h2">{scenario.name}</Header>
-
-              <p>{scenario.text}</p>
-            </Container>
+            <Scenario scenario={scenario} key={scenario.id} />
           ))}
         </Segment>
       </Feature>
