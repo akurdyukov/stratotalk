@@ -22,9 +22,14 @@ function* getScenariosSaga() {
   }
 }
 
+function* activateScenarios() {
+  yield put(actions.scenariosLoadRequested());
+}
+
 export default function* root() {
   yield all([
-    takeLatest(ActionTypes.SCENARIOS_ACTIVATED, getScenariosSaga),
+    takeLatest(ActionTypes.SCENARIOS_ACTIVATED, activateScenarios),
+    takeLatest(ActionTypes.SCENARIOS_LOAD_REQUESTED, getScenariosSaga),
   ]);
 }
 
