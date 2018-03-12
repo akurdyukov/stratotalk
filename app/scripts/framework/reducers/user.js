@@ -6,6 +6,7 @@ import { ActionTypes } from '../constants';
 export const userState = {
   isAuthenticated: false,
   status: 'idle',
+  user: null,
 };
 
 export default {
@@ -29,7 +30,14 @@ export default {
     [ActionTypes.USER_LOGOUT_SUCCESS](state) {
       return immutable(state, {
         isAuthenticated: { $set: false },
+        user: { $set: null },
         status: { $set: 'idle' },
+      });
+    },
+    [ActionTypes.SYNC_USER](state, { payload }) {
+      return immutable(state, {
+        isAuthenticated: { $set: false },
+        user: { $set: payload.user },
       });
     },
   }),

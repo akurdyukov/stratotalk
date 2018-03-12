@@ -16,6 +16,7 @@ export const ActionTypes = keyMirror({
   USER_LOGOUT_REQUEST: undefined,
   USER_LOGOUT_SUCCESS: undefined,
   USER_LOGOUT_FAILURE: undefined,
+  SYNC_USER: undefined,
   SHOW_ALERT: undefined,
   HIDE_ALERT: undefined,
   GO_PRIVATE: undefined,
