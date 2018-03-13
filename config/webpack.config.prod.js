@@ -48,7 +48,9 @@ module.exports = merge.smart(webpackConfig, {
       template: './index.ejs',
       title: NPMPackage.title,
     }),
-    new LodashModuleReplacementPlugin(),
+    // new LodashModuleReplacementPlugin({
+    //   metadata: true,
+    // }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,

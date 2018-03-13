@@ -1,4 +1,4 @@
 export const ROUTE_ROOT = '/';
 export const ROUTE_PRIVATE = '/private';
-export const ROUTE_SCENARIOS = '/scenarios';
-export const ROUTE_GAME_CREATOR = '/newGame';
+export const ROUTE_SCENARIOS = '/private/scenarios';
+export const ROUTE_GAME_CREATOR = '/private/newGame';

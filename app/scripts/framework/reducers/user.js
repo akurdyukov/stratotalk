@@ -36,7 +36,6 @@ export default {
     },
     [ActionTypes.SYNC_USER](state, { payload }) {
       return immutable(state, {
-        isAuthenticated: { $set: false },
         user: { $set: payload.user },
       });
     },

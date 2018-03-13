@@ -60,7 +60,7 @@ export class App extends React.Component {
           <main className="app__main">
             <Switch>
               <RoutePublic isAuthenticated={user.isAuthenticated} path={ROUTE_ROOT} exact component={Home} />
-              <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_PRIVATE} component={Private} />
+              <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_PRIVATE} exact component={Private} />
               <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_SCENARIOS} component={Scenarios} />
               <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_GAME_CREATOR} component={GameCreator} />
               <Route component={NotFound} />
