@@ -1,6 +1,7 @@
 import { all, fork } from 'redux-saga/effects';
 
-import user from '../framework/sagas';
+import framework from '../framework/sagas';
+import main from '../features/Private/sagas';
 import scenarios from '../features/Scenarios/sagas';
 import gameCreator from '../features/GameCreator/sagas';
 
@@ -9,7 +10,8 @@ import gameCreator from '../features/GameCreator/sagas';
  */
 export default function* root() {
   yield all([
-    fork(user),
+    fork(framework),
+    fork(main),
     fork(scenarios),
     fork(gameCreator),
   ]);

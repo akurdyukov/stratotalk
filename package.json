@@ -32,6 +32,7 @@
     "lodash": "^4.17.4",
     "mobile-detect": "^1.4.1",
     "modernizr": "^3.5.0",
+    "moment": "^2.21.0",
     "mustache": "^2.3.0",
     "prop-types": "^15.6.0",
     "qs": "^6.5.1",
@@ -54,7 +55,8 @@
     "scroll-doc": "^0.2.1",
     "semantic-ui-css": "^2.3.0",
     "semantic-ui-react": "^0.78.3",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "uuid-random": "^1.0.6"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.4",

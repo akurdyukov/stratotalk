@@ -1,6 +1,7 @@
 TODO
 
 - [x] Login/logout with firebase
+- [x] Publish to hosting
 - [ ] Save new game to firebase
 - [ ] List games
 - [ ] Update game status with function

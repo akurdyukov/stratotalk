@@ -61,38 +61,38 @@ module.exports = merge.smart(webpackConfig, {
         keep_fnames: true,
       },
     }),
-    new OfflinePlugin({
-      autoUpdate: true,
-      safeToUseOptionalCaches: true,
-      ServiceWorker: {
-        events: true,
-      },
-      AppCache: {
-        events: true,
-      },
-      caches: {
-        main: [
-          '**/*.js',
-          '**/*.css',
-          'index.html',
-        ],
-        additional: [
-          'fonts/*.woff',
-          'fonts/*.ttf',
-          'fonts/*.svg',
-        ],
-        optional: [
-          ':rest:',
-        ],
-      },
-      cacheMaps: [
-        {
-          match: function() {
-            return new URL('/', location);
-          },
-          requestTypes: ['navigate'],
-        },
-      ],
-    }),
+    // new OfflinePlugin({
+    //   autoUpdate: true,
+    //   safeToUseOptionalCaches: true,
+    //   ServiceWorker: {
+    //     events: true,
+    //   },
+    //   AppCache: {
+    //     events: true,
+    //   },
+    //   caches: {
+    //     main: [
+    //       '**/*.js',
+    //       '**/*.css',
+    //       'index.html',
+    //     ],
+    //     additional: [
+    //       'fonts/*.woff',
+    //       'fonts/*.ttf',
+    //       'fonts/*.svg',
+    //     ],
+    //     optional: [
+    //       ':rest:',
+    //     ],
+    //   },
+    //   cacheMaps: [
+    //     {
+    //       match: function() {
+    //         return new URL('/', location);
+    //       },
+    //       requestTypes: ['navigate'],
+    //     },
+    //   ],
+    // }),
   ],
 });

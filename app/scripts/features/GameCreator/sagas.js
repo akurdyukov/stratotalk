@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest, select } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
 import { ActionTypes } from './constants';
@@ -15,8 +15,9 @@ function* activateGameCreator() {
 
 function* createGameSaga(action) {
   const { scenarioId, role } = action.payload;
+  const email = yield select(state => state.user.user.email);
   try {
-    const game = yield call(createGame, scenarioId, role);
+    const game = yield call(createGame, scenarioId, email, role);
     yield put(actions.gameCreationSuccess(game));
     yield put(push(ROUTE_PRIVATE)); // go to games list
   } catch (err) {
