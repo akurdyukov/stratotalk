@@ -33,10 +33,6 @@ const activeGames: Array<Game> = [
 
 /**
  * Create new game and join it
- * 
- * @param {*} scenarioId 
- * @param {*} email 
- * @param {*} role 
  */
 export function createGame(scenarioId: string, email: string, role: DesiredRole): Promise<Game> {
   return new Promise((resolve, reject) => {

@@ -1,5 +1,4 @@
-import { all, call, put, takeLatest, select } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { ActionTypes } from './constants';
 import actions from './actions';
