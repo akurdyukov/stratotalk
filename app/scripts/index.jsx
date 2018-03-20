@@ -13,7 +13,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 
 import { store, persistor } from 'app-store';
 
-import 'semantic-ui-css/semantic.css';
+import 'index.scss';
 
 import { showAlert } from './actions';
 import App from './framework/page';

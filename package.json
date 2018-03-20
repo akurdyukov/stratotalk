@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "@firebase/firestore": "^0.3.5",
+    "@naveego/react-jsonschema-form-semantic": "0.0.2",
     "classlist-polyfill": "^1.2.0",
     "classnames": "^2.2.5",
     "core-js": "^2.5.3",
@@ -44,6 +45,7 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
+    "react-syntax-highlighter": "^7.0.2",
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-actions": "^2.3.0",
@@ -129,6 +131,7 @@
     "rsync": "^0.6.1",
     "sass-loader": "^6.0.6",
     "script-loader": "^0.7.2",
+    "semantic-ui-sass": "^2.2.11",
     "serve": "^6.4.4",
     "source-map-support": "^0.5.0",
     "style-loader": "^0.19.1",

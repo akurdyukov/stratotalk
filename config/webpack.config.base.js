@@ -126,13 +126,11 @@ module.exports = {
       },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: ['url?limit=10000&minetype=application/font-woff&name=fonts/[name].[ext]'],
-        include: /fonts/,
+        use: ['url?limit=10000&mimetype=application/font-woff&name=fonts/[name].[ext]'],
       },
       {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: ['file?name=fonts/[name].[ext]'],
-        include: /fonts/,
       },
       {
         test: /\.(jpe?g|png|gif|svg|ico)$/i,

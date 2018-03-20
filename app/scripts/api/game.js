@@ -52,6 +52,7 @@ export function createGame(scenarioId: string, email: string, role: DesiredRole)
           roles: {
             email: role,
           },
+          startDate: moment().add(10, 'seconds'),
         };
         activeGames.push(newGame);
 

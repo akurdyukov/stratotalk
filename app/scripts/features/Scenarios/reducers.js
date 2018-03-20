@@ -1,6 +1,7 @@
 import immutable from 'immutability-helper';
-import { createReducer } from '../../modules/helpers';
+import _ from 'lodash';
 
+import { createReducer } from '../../modules/helpers';
 import { ActionTypes } from './constants';
 
 export const initState = {
@@ -8,6 +9,15 @@ export const initState = {
   errorMessage: '', // error message
   status: 'idle',
 };
+
+function updateScenario(updated) {
+  return (scenarios) => {
+    const index = _.findIndex(scenarios, (s) => s.id === updated.id);
+    const copy = _.cloneDeep(scenarios);
+    copy[index] = updated;
+    return copy;
+  };
+}
 
 export default {
   scenarios: createReducer(initState, {
@@ -28,6 +38,11 @@ export default {
       return immutable(state, {
         errorMessage: { $set: payload.message },
         status: { $set: 'error' },
+      });
+    },
+    [ActionTypes.SCENARIO_CHANGE_SUCCEEDED](state, { payload }) {
+      return immutable(state, {
+        all: { $apply: updateScenario(payload.scenario) },
       });
     },
   }),

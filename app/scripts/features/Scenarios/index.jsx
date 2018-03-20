@@ -16,6 +16,7 @@ class Scenarios extends React.PureComponent {
     deactivate: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     scenarios: PropTypes.object.isRequired,
+    scenarioChanged: PropTypes.func.isRequired,
   };
 
   render() {
@@ -27,7 +28,7 @@ class Scenarios extends React.PureComponent {
           <Header as="h1">Сценарии</Header>
 
           {this.props.scenarios.all.map((scenario) => (
-            <Scenario scenario={scenario} key={scenario.id} />
+            <Scenario scenario={scenario} key={scenario.id} scenarioChanged={this.props.scenarioChanged} />
           ))}
         </Segment>
       </Feature>
@@ -42,4 +43,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   activate: actions.scenariosActivated,
   deactivate: actions.scenariosDeactivated,
+  scenarioChanged: actions.scenarioChangeRequested,
 })(Scenarios);

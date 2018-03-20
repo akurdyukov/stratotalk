@@ -5,10 +5,10 @@ import _ from 'lodash';
 
 export default class Games extends React.PureComponent {
   static propTypes = {
-    games: PropTypes.array.isRequired,
-    scenarios: PropTypes.array.isRequired,
     currentEmail: PropTypes.string.isRequired, // current user email
+    games: PropTypes.array.isRequired,
     join: PropTypes.func.isRequired, // action for 'join the game'
+    scenarios: PropTypes.array.isRequired,
   }
 
   getScenarioName = (id) => {

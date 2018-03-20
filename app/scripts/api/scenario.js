@@ -112,3 +112,7 @@ export function getScenarioById(id: string): Promise<Scenario> {
     });
   });
 }
+
+export function saveScenario(scenario: Scenario): Promise<Scenario> {
+  return Promise.resolve(scenario);
+}
