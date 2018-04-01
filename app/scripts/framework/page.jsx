@@ -17,10 +17,11 @@ import Private from '../features/Private';
 import NotFound from '../features/NotFound';
 import Scenarios from '../features/Scenarios';
 import GameCreator from '../features/GameCreator';
+import ScenarioEditor from '../features/ScenarioEditor';
 
 import SystemAlerts from '../components/SystemAlerts';
 
-import { ROUTE_PRIVATE, ROUTE_SCENARIOS, ROUTE_ROOT, ROUTE_GAME_CREATOR } from '../constants/routes';
+import { ROUTE_PRIVATE, ROUTE_SCENARIOS, ROUTE_ROOT, ROUTE_GAME_CREATOR, ROUTE_SCENARIO_EDIT } from '../constants/routes';
 
 export class App extends React.Component {
   static propTypes = {
@@ -62,6 +63,7 @@ export class App extends React.Component {
               <RoutePublic isAuthenticated={user.isAuthenticated} path={ROUTE_ROOT} exact component={Home} />
               <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_PRIVATE} exact component={Private} />
               <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_SCENARIOS} component={Scenarios} />
+              <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_SCENARIO_EDIT} component={ScenarioEditor} />
               <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_GAME_CREATOR} component={GameCreator} />
               <Route component={NotFound} />
             </Switch>

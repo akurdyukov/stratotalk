@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Form from '@naveego/react-jsonschema-form-semantic';
+import { TextArea } from 'semantic-ui-react';
+import './ScenarioEditor.scss';
 
 const schema = {
   title: 'Scenario editor',
@@ -44,7 +46,7 @@ const schema = {
       required: ['name', 'description', 'substitutions'],
       properties: {
         name: { type: 'string', title: 'Название варианта' },
-        description: { type: 'string', title: 'Тайный текст для роли' },
+        description: { type: 'string', title: 'Тайный текст для варианта' },
         substitutions: {
           type: 'array',
           title: 'Подстановки',
@@ -81,11 +83,19 @@ const uiSchema = {
     'ui:emptyValue': '',
   },
   text: {
-    'ui:widget': 'textarea',
+    'ui:widget': (props) => (
+      <TextArea 
+        autoHeight
+        value={props.value}
+        onChange={(event) => props.onChange(event.target.value)}
+        className="codeeditor"
+      />
+    ),
+  },
+  substitutions: {
+    classNames: 'wide',
   },
 };
-
-const log = (type) => console.log.bind(console, type);
 
 export default class ScenarioEditor extends React.PureComponent {
   static propTypes = {
@@ -101,7 +111,6 @@ export default class ScenarioEditor extends React.PureComponent {
         formData={this.props.scenario}
         onChange={(e) => { this.props.onChange(e.formData); }}
         onSubmit={(e) => { this.props.onChange(e.formData); }}
-        onError={log('errors')}
       />
     );
   }

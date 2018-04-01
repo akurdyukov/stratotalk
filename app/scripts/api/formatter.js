@@ -11,10 +11,20 @@ function merge(draw) {
     _.clone(draw.substitutions));
 }
 
+function renderText(text, subst) {
+  // TODO: add MarkDown here
+  return Mustache.render(text, subst);
+}
+
+function getSecretTexts(draw) {
+  return _.map(_.toPairs(draw.roles), ([roleName, roleDraw]) => [roleName, renderText(roleDraw.variant.description)]);
+}
+
 export default function formatScenario(scenario, draw) {
   const merged = merge(draw);
   return {
-    formatted: Mustache.render(scenario.text, merge(draw)),
+    commonText: renderText(scenario.text, merged),
+    secretTexts: _.fromPairs(getSecretTexts(draw)),
     merged,
   };
 }

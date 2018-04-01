@@ -2,7 +2,7 @@ import immutable from 'immutability-helper';
 import _ from 'lodash';
 
 import { createReducer } from '../../modules/helpers';
-import { ActionTypes } from './constants';
+import { ActionTypes } from '../../core/constants';
 
 export const initState = {
   all: [],
