@@ -95,6 +95,24 @@ const uiSchema = {
   substitutions: {
     classNames: 'wide',
   },
+  roles: {
+    items: {
+      variants: {
+        items: {
+          description: {
+            'ui:widget': (props) => (
+              <TextArea 
+                autoHeight
+                value={props.value}
+                onChange={(event) => props.onChange(event.target.value)}
+                className="codeeditor"
+              />
+            ),
+          },
+        },
+      },
+    },
+  },
 };
 
 export default class ScenarioEditor extends React.PureComponent {
