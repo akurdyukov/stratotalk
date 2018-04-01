@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Tab } from 'semantic-ui-react';
 
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { idea } from 'react-syntax-highlighter/styles/hljs';
-
 import RawScenario from './RawScenario';
 import RenderedScenario from './RenderedScenario';
 import ScenarioEditor from './ScenarioEditor';
