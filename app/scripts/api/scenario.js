@@ -1,4 +1,6 @@
 // @flow
+import uuid from 'uuid-random';
+import _ from 'lodash';
 
 type Substitute = {
   id: string,
@@ -24,6 +26,16 @@ type Scenario = {
   substitutions: Array<Substitute>,
   roles: Array<Role>,
 }
+
+const scenarioTemplate: Scenario = {
+  id: '',
+  name: 'New scenario',
+  text: '',
+  substitutions: [
+  ],
+  roles: [
+  ],
+};
 
 const exampleScenario: Scenario = {
   id: 'scenario1',
@@ -99,13 +111,14 @@ const exampleScenario: Scenario = {
       ],
     },
   ],
-
 };
+
+const knownScenarios = [exampleScenario];
 
 export function getScenarios(): Promise<Array<Scenario>> {
   return new Promise((resolve: (any) => void) => {
     setTimeout(() => {
-      resolve([exampleScenario]);
+      resolve(knownScenarios);
     }, 1000);
   });
 }
@@ -113,15 +126,28 @@ export function getScenarios(): Promise<Array<Scenario>> {
 export function getScenarioById(id: string): Promise<Scenario> {
   return new Promise((resolve: (any) => void, reject: (any) => void) => {
     setTimeout(() => {
-      if (id === exampleScenario.id) {
-        resolve(exampleScenario);
-      } else {
+      const found = _.find(knownScenarios, (s) => s.id === id);
+      if (found === undefined) {
         reject(`Unknown scenario ${id}`);
+      } else {
+        resolve(found);
       }
     });
   });
 }
 
 export function saveScenario(scenario: Scenario): Promise<Scenario> {
+  const found = _.findIndex(knownScenarios, (s) => s.id === scenario.id);
+  if (found === -1) {
+    knownScenarios.push(scenario);
+  } else {
+    knownScenarios[found] = scenario;
+  }
+  // TODO: fire 'scenario updated' event
   return Promise.resolve(scenario);
+}
+
+export function createScenario(): Promise<Scenario> {
+  const newScenario = { ...scenarioTemplate, id: uuid() };
+  return saveScenario(newScenario);
 }

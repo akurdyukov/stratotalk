@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Segment, Header, List } from 'semantic-ui-react';
+import { Segment, Header, List, Button } from 'semantic-ui-react';
 
 import AppHeader from '../../components/Header';
 import Feature from '../../components/Feature';
@@ -12,6 +12,7 @@ import ScenarioItem from './components/ScenarioItem';
 class Scenarios extends React.PureComponent {
   static propTypes = {
     activate: PropTypes.func.isRequired,
+    create: PropTypes.func.isRequired,
     deactivate: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     scenarios: PropTypes.object.isRequired,
@@ -23,7 +24,10 @@ class Scenarios extends React.PureComponent {
       <Feature onActivate={this.props.activate} onDeactivate={this.props.deactivate}>
         <AppHeader location={this.props.location} />
         <Segment loading={isLoading}>
-          <Header as="h1">Сценарии</Header>
+          <div>
+            <Header as="h1">Сценарии</Header>
+            <Button floated="right" onClick={this.props.create}>Create</Button>
+          </div>
           <List>
             {this.props.scenarios.all.map((scenario) => (
               <ScenarioItem scenario={scenario} key={scenario.id} />
@@ -42,4 +46,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   activate: actions.scenariosActivated,
   deactivate: actions.scenariosDeactivated,
+  create: actions.scenariosCreate,
 })(Scenarios);

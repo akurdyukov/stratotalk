@@ -16,13 +16,14 @@ class ScenarioEditor extends React.PureComponent {
     activate: PropTypes.func.isRequired,
     deactivate: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
     scenario: PropTypes.object,
     scenarioChanged: PropTypes.func.isRequired,
     status: PropTypes.string.isRequired,
   };
 
   activateEditor = () => {
-    this.props.activate('scenario1');
+    this.props.activate(this.props.match.params.id);
   }
 
   render() {

@@ -3,8 +3,10 @@ TODO
 - [x] Login/logout with firebase
 - [x] Publish to hosting
 - [x] Integrate https://github.com/nilportugues/react-jsonschema-form-semantic-ui into scenario editor
-- [ ] Scenario list/scanario edit pages
-- [ ] New/save scenario to firebase
+- [x] Scenario list/scanario edit pages
+- [x] Editable scenario 'internal' format
+- [x] Create scenario
+- [ ] Save scenario to firebase
 - [ ] Save new game to firebase
 - [ ] List games
 - [ ] Update game status with function

@@ -8,6 +8,7 @@ import { idea } from 'react-syntax-highlighter/styles/hljs';
 import RawScenario from './RawScenario';
 import RenderedScenario from './RenderedScenario';
 import ScenarioEditor from './ScenarioEditor';
+import SourceView from './SourceView';
 
 export default class Scenario extends React.PureComponent {
   static propTypes = {
@@ -39,13 +40,9 @@ export default class Scenario extends React.PureComponent {
     />
   )
 
-  getSourceView = () => {
-    return (
-      <SyntaxHighlighter language="json" style={idea} showLineNumbers>
-        {JSON.stringify(this.props.scenario, null, 2)}
-      </SyntaxHighlighter>
-    );
-  }
+  getSourceView = () => (
+    <SourceView scenario={this.props.scenario} onChange={this.props.scenarioChanged} />
+  )
 
   render() {
     const panes = [

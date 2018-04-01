@@ -7,4 +7,6 @@ import keyMirror from 'fbjs/lib/keyMirror';
 export const ActionTypes = keyMirror({
   SCENARIOS_ACTIVATED: undefined,
   SCENARIOS_DEACTIVATED: undefined,
+
+  SCENARIOS_CREATE: undefined,
 });
