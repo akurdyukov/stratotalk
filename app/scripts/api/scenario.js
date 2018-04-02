@@ -1,6 +1,9 @@
 // @flow
 import uuid from 'uuid-random';
+import { call, put, take } from 'redux-saga/effects';
 import _ from 'lodash';
+
+import rsf from './rsf';
 
 type Substitute = {
   id: string,
@@ -25,6 +28,15 @@ type Scenario = {
   text: string,
   substitutions: Array<Substitute>,
   roles: Array<Role>,
+  createdBy: string,
+  createdAt: Date,
+  modifiedBy: string,
+  modifiedAt: Date,
+}
+
+type User = {
+  email: string,
+  displayName: string,
 }
 
 const scenarioTemplate: Scenario = {
@@ -35,11 +47,19 @@ const scenarioTemplate: Scenario = {
   ],
   roles: [
   ],
+  createdBy: '',
+  createdAt: new Date(),
+  modifiedBy: '',
+  modifiedAt: new Date(),
 };
 
 const exampleScenario: Scenario = {
   id: 'scenario1',
-  name: 'Иностранная команда',
+  name: '[Пример, не удалять] Иностранная команда',
+  createdBy: '',
+  createdAt: new Date(),
+  modifiedBy: '',
+  modifiedAt: new Date(),
   text: `
 # Описание кейса
 
@@ -113,41 +133,68 @@ const exampleScenario: Scenario = {
   ],
 };
 
-const knownScenarios = [exampleScenario];
-
-export function getScenarios(): Promise<Array<Scenario>> {
-  return new Promise((resolve: (any) => void) => {
-    setTimeout(() => {
-      resolve(knownScenarios);
-    }, 1000);
-  });
-}
-
-export function getScenarioById(id: string): Promise<Scenario> {
-  return new Promise((resolve: (any) => void, reject: (any) => void) => {
-    setTimeout(() => {
-      const found = _.find(knownScenarios, (s) => s.id === id);
-      if (found === undefined) {
-        reject(`Unknown scenario ${id}`);
-      } else {
-        resolve(found);
-      }
-    });
-  });
-}
-
-export function saveScenario(scenario: Scenario): Promise<Scenario> {
-  const found = _.findIndex(knownScenarios, (s) => s.id === scenario.id);
-  if (found === -1) {
-    knownScenarios.push(scenario);
-  } else {
-    knownScenarios[found] = scenario;
+export function* migrateDatabase(user: User): Saga<Void> {
+  const ref = `scenarios/${exampleScenario.id}`;
+  const example = yield call(rsf.firestore.getDocument, ref);
+  if (!example.exists) {
+    const updated = {
+      ...exampleScenario,
+      createdBy: {
+        email: user.email,
+        name: user.displayName,
+      },
+      modifiedBy: {
+        email: user.email,
+        name: user.displayName,
+      },
+    };
+    yield call(rsf.firestore.setDocument, ref, updated);
   }
-  // TODO: fire 'scenario updated' event
-  return Promise.resolve(scenario);
 }
 
-export function createScenario(): Promise<Scenario> {
+export function* getScenarios(): Saga<Void> {
+  const snapshot = yield call(rsf.firestore.getCollection, 'scenarios');
+  return snapshot.docs.map((item) => item.data());
+}
+
+export function* getScenarioById(id: string): Saga<Scenario> {
+  const ref = `scenarios/${id}`;
+  const doc = yield call(rsf.firestore.getDocument, ref);
+  if (doc.exists) {
+    return doc.data();
+  }
+  return null;
+}
+
+export function* saveScenario(scenario: Scenario, user: User): Saga<Scenario> {
+  const ref = `scenarios/${scenario.id}`;
+  // TODO: set 'updated'
+  const updated = {
+    ...scenario,
+    modifiedBy: {
+      email: user.email,
+      name: user.displayName,
+    },
+  };
+  const doc = yield call(rsf.firestore.setDocument, ref, updated);
+  return doc.data();
+}
+
+export function* createScenario(user: User): Saga<Scenario> {
   const newScenario = { ...scenarioTemplate, id: uuid() };
-  return saveScenario(newScenario);
+  return yield saveScenario(newScenario, user);
+}
+
+export function* createChannel(updateScenarios): Saga<Void> {
+  const channel = rsf.firestore.channel('scenarios');
+
+  while (true) {
+    const updates = yield take(channel);
+    yield put(updateScenarios(updates.docs.map((item) => item.data())));
+  }
+}
+
+export function* removeScenario(id: string): Saga<Void> {
+  const ref = `scenarios/${id}`;
+  yield call(rsf.firestore.deleteDocument, ref);
 }

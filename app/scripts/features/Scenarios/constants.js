@@ -9,4 +9,5 @@ export const ActionTypes = keyMirror({
   SCENARIOS_DEACTIVATED: undefined,
 
   SCENARIOS_CREATE: undefined,
+  SCENARIOS_REMOVE: undefined,
 });

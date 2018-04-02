@@ -8,5 +8,6 @@ export default createActions({
   [ActionTypes.SCENARIOS_ACTIVATED]: undefined,
   [ActionTypes.SCENARIOS_DEACTIVATED]: undefined,
   [ActionTypes.SCENARIOS_CREATE]: undefined,
+  [ActionTypes.SCENARIOS_REMOVE]: (id) => ({ id }),
 });
 

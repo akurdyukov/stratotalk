@@ -66,8 +66,8 @@ export default class SourceView extends React.Component {
       return (
         <div>
           {
-            this.state.error.map((e) => (
-              <p key={e}>{e}</p>
+            this.state.error.map((err) => (
+              <p key={err}>{err}</p>
             ))
           }
         </div>

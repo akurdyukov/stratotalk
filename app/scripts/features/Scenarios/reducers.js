@@ -45,5 +45,12 @@ export default {
         all: { $apply: updateScenario(payload.scenario) },
       });
     },
+    [ActionTypes.SCENARIOS_UPDATED](state, { payload }) {
+      const { scenarios } = payload;
+      return immutable(state, {
+        all: { $set: scenarios },
+        status: { $set: 'loaded' },
+      });
+    },
   }),
 };

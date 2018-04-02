@@ -6,6 +6,8 @@ export const ActionTypes = keyMirror({
   SCENARIOS_LOAD_SUCCEEDED: undefined,
   SCENARIOS_LOAD_FAILED: undefined,
 
+  SCENARIOS_UPDATED: undefined,
+
   SCENARIO_LOAD_REQUESTED: undefined,
   SCENARIO_LOAD_STARTED: undefined,
   SCENARIO_LOAD_SUCCEEDED: undefined,

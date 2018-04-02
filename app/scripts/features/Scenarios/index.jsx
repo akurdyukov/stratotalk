@@ -15,6 +15,7 @@ class Scenarios extends React.PureComponent {
     create: PropTypes.func.isRequired,
     deactivate: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    remove: PropTypes.func.isRequired,
     scenarios: PropTypes.object.isRequired,
   };
 
@@ -25,12 +26,12 @@ class Scenarios extends React.PureComponent {
         <AppHeader location={this.props.location} />
         <Segment loading={isLoading}>
           <div>
+            <Button positive floated="right" onClick={this.props.create}>Создать</Button>
             <Header as="h1">Сценарии</Header>
-            <Button floated="right" onClick={this.props.create}>Create</Button>
           </div>
-          <List>
+          <List divided verticalAlign="middle">
             {this.props.scenarios.all.map((scenario) => (
-              <ScenarioItem scenario={scenario} key={scenario.id} />
+              <ScenarioItem scenario={scenario} key={scenario.id} remove={this.props.remove} />
             ))}
           </List>
         </Segment>
@@ -47,4 +48,5 @@ export default connect(mapStateToProps, {
   activate: actions.scenariosActivated,
   deactivate: actions.scenariosDeactivated,
   create: actions.scenariosCreate,
+  remove: actions.scenariosRemove,
 })(Scenarios);

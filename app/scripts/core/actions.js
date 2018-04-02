@@ -10,6 +10,8 @@ export default createActions({
   [ActionTypes.SCENARIO_LOAD_SUCCEEDED]: (scenario) => ({ scenario }),
   [ActionTypes.SCENARIO_LOAD_FAILED]: (scenarioId, error) => ({ scenarioId, error }),
 
+  [ActionTypes.SCENARIOS_UPDATED]: (scenarios) => ({ scenarios }),
+
   [ActionTypes.SCENARIOS_LOAD_REQUESTED]: undefined,
   [ActionTypes.SCENARIOS_LOAD_STARTED]: undefined,
   [ActionTypes.SCENARIOS_LOAD_SUCCEEDED]: undefined,

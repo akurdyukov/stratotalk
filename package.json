@@ -61,6 +61,7 @@
     "scroll-doc": "^0.2.1",
     "semantic-ui-css": "^2.3.0",
     "semantic-ui-react": "^0.78.3",
+    "uri-js": "^4.2.0",
     "uuid": "^3.1.0",
     "uuid-random": "^1.0.6"
   },
