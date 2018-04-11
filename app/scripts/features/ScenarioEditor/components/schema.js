@@ -5,6 +5,7 @@ export const schema = {
   properties: {
     id: { type: 'string', title: 'Идентификатор', default: 'Уникальный идентификатор.' },
     name: { type: 'string', title: 'Название', default: 'Новое название сценария.' },
+    description: { type: 'string', title: 'Краткое описание', default: '' },
     text: { type: 'string', title: 'Описание кейса', default: '' },
     substitutions: {
       type: 'array',

@@ -67,7 +67,7 @@ class GameCreator extends React.PureComponent {
                 {this.props.errorMessage}
               </Message>
             )}
-            <Button onClick={this.handleCreate}>Создать</Button>
+            <Button onClick={this.handleCreate} floated="right" primary>Создать</Button>
           </Segment>
         </Feature>
       );

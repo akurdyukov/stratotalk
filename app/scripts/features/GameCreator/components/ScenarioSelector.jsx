@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Radio } from 'semantic-ui-react';
+import { Form, Radio, List } from 'semantic-ui-react';
 import _ from 'lodash';
 
 export default class ScenarioSelector extends React.PureComponent {
@@ -21,17 +21,24 @@ export default class ScenarioSelector extends React.PureComponent {
 
       return (
         <Form loading={isLoading}>
-          {!isLoading && all.map((s) => (
-            <Form.Field key={s.id}>
-              <Radio
-                label={s.name}
-                name="scenarioGroup"
-                value={s.id}
-                checked={this.props.selectedScenario && this.props.selectedScenario.id === s.id}
-                onChange={this.handleChange}
-              />
-            </Form.Field>
-          ))}
+          <List divided relaxed>
+            {!isLoading && all.map((s) => (
+              <List.Item key={s.id}>
+                <List.Content floated="left">
+                  <Radio
+                    name="scenarioGroup"
+                    value={s.id}
+                    checked={this.props.selectedScenario && this.props.selectedScenario.id === s.id}
+                    onChange={this.handleChange}
+                  />
+                </List.Content>
+                <List.Content>
+                  <List.Header>{s.name}</List.Header>
+                  <List.Description>{s.description}</List.Description>
+                </List.Content>
+              </List.Item>
+            ))}
+          </List>
         </Form>
       );
     }

@@ -2,14 +2,14 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { ActionTypes } from './constants';
 import actions from './actions';
-import scenActions from '../Scenarios/actions';
+import coreActions from '../../core/actions';
 
 import { listActiveGames } from '../../api/game';
 
 function* activateMain() {
   // separate action is case of moving this somewhere else
   yield put(actions.gamesLoadRequested());
-  yield put(scenActions.scenariosLoadRequested());
+  yield put(coreActions.scenariosLoadRequested());
 }
 
 function* loadGames() {

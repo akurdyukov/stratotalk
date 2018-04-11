@@ -3,14 +3,14 @@ import { push } from 'react-router-redux';
 
 import { ActionTypes } from './constants';
 import actions from './actions';
-import scenActions from '../Scenarios/actions';
+import coreActions from '../../core/actions';
 
 import { createGame } from '../../api/game';
 
 import { ROUTE_PRIVATE } from '../../constants/routes';
 
 function* activateGameCreator() {
-  yield put(scenActions.scenariosLoadRequested());
+  yield put(coreActions.scenariosLoadRequested());
 }
 
 function* createGameSaga(action) {
