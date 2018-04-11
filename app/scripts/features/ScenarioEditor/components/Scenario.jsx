@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Tab } from 'semantic-ui-react';
+import { Tab } from 'semantic-ui-react';
+import ErrorBoundary from 'react-error-boundary';
 
 import RawScenario from './RawScenario';
 import RenderedScenario from './RenderedScenario';
 import ScenarioEditor from './ScenarioEditor';
 import SourceView from './SourceView';
+
+const FallbackComponent = ({ componentStack, error }) => (
+  <div/>
+);
 
 export default class Scenario extends React.PureComponent {
   static propTypes = {
@@ -13,22 +18,15 @@ export default class Scenario extends React.PureComponent {
     scenarioChanged: PropTypes.func.isRequired,
   };
 
-  getViewer = () => {
-    const { scenario } = this.props;
+  getStructure = () => (
+    <RawScenario scenario={this.props.scenario} scenarioChanged={this.props.scenarioChanged} />
+  )
 
-    return (
-      <Grid columns={2}>
-        <Grid.Row>
-          <Grid.Column>
-            <RawScenario scenario={scenario} scenarioChanged={this.props.scenarioChanged} />
-          </Grid.Column>
-          <Grid.Column>
-            <RenderedScenario scenario={scenario} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    );
-  }
+  getPreviewer = () => (
+    <ErrorBoundary FallbackComponent={FallbackComponent}>
+      <RenderedScenario scenario={this.props.scenario} />
+    </ErrorBoundary>
+  )
 
   getEditor = () => (
     <ScenarioEditor
@@ -43,7 +41,8 @@ export default class Scenario extends React.PureComponent {
 
   render() {
     const panes = [
-      { menuItem: 'Просмотр', render: () => <Tab.Pane>{this.getViewer()}</Tab.Pane> },
+      { menuItem: 'ПредПросмотр', render: () => <Tab.Pane>{this.getPreviewer()}</Tab.Pane> },
+      { menuItem: 'Структура', render: () => <Tab.Pane>{this.getStructure()}</Tab.Pane> },
       { menuItem: 'Редактирование', render: () => <Tab.Pane>{this.getEditor()}</Tab.Pane> },
       { menuItem: 'Исходник', render: () => <Tab.Pane>{this.getSourceView()}</Tab.Pane> },
     ];

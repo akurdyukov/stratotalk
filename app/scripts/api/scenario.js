@@ -185,6 +185,12 @@ export function* createScenario(user: User): Saga<Scenario> {
   return yield saveScenario(newScenario, user);
 }
 
+export function* copyScenario(original: Scenario, user: User): Saga<Scenario> {
+  const newScenario = { ...original, id: uuid(), name: `<Копия> ${original.name}` };
+
+  yield saveScenario(newScenario, user);
+}
+
 export function* createChannel(updateScenarios): Saga<Void> {
   const channel = rsf.firestore.channel('scenarios');
 

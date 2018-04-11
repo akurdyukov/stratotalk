@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Header, Button, List, Segment } from 'semantic-ui-react';
+import { Container, Header, Button, List, Segment, Label, Icon } from 'semantic-ui-react';
 import _ from 'lodash';
 import ReactMarkdown from 'react-markdown';
 
@@ -28,8 +28,11 @@ export default class RenderedScenario extends React.Component {
   render() {
     const view = formatScenario(this.props.scenario, this.state.draw);
     return (
-      <Container text>
-        <Button onClick={this.handleRefresh}>Обновить</Button>
+      <Container fluid>
+        <Button primary onClick={this.handleRefresh}>
+          <Icon name="refresh" />
+          Обновить
+        </Button>
         <Header as="h2">Общие вводные</Header>
 
         <Segment>
@@ -52,11 +55,14 @@ export default class RenderedScenario extends React.Component {
           ))}
         </List>
         <Header as="h2">Подстановки</Header>
-        <ul>
+        <List divided selection>
           {_.toPairs(view.merged).map((pair) => (
-            <li key={pair[0]}>{pair[0]}: {pair[1]}</li>
+            <List.Item key={pair[0]}>
+              <Label>{pair[0]}</Label>
+              {pair[1]}
+            </List.Item>
           ))}
-        </ul>
+        </List>
       </Container>
     );
   }

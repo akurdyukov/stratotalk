@@ -12,6 +12,7 @@ import ScenarioItem from './components/ScenarioItem';
 class Scenarios extends React.PureComponent {
   static propTypes = {
     activate: PropTypes.func.isRequired,
+    copy: PropTypes.func.isRequired,
     create: PropTypes.func.isRequired,
     deactivate: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
@@ -31,7 +32,7 @@ class Scenarios extends React.PureComponent {
           </div>
           <List divided verticalAlign="middle">
             {this.props.scenarios.all.map((scenario) => (
-              <ScenarioItem scenario={scenario} key={scenario.id} remove={this.props.remove} />
+              <ScenarioItem scenario={scenario} key={scenario.id} remove={this.props.remove} copy={this.props.copy} />
             ))}
           </List>
         </Segment>
@@ -49,4 +50,5 @@ export default connect(mapStateToProps, {
   deactivate: actions.scenariosDeactivated,
   create: actions.scenariosCreate,
   remove: actions.scenariosRemove,
+  copy: actions.scenariosCopy,
 })(Scenarios);

@@ -19,6 +19,7 @@ function shorten(str, len, ellipsis = '…') {
 
 export default class ScenarioItem extends React.PureComponent {
   static propTypes = {
+    copy: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
     scenario: PropTypes.object.isRequired,
   }
@@ -29,6 +30,7 @@ export default class ScenarioItem extends React.PureComponent {
     return (
       <List.Item>
         <List.Content floated="right">
+          <Button size="mini" onClick={() => this.props.copy(this.props.scenario.id)}>Копировать</Button>
           <Button size="mini" negative onClick={() => this.props.remove(this.props.scenario.id)}>Удалить</Button>
         </List.Content>
 

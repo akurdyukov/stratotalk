@@ -7,6 +7,7 @@ TODO
 - [x] Editable scenario 'internal' format
 - [x] Create scenario
 - [x] Save scenario to firebase
+- [x] Copy scenario
 - [ ] Save new game to firebase
 - [ ] List games
 - [ ] Update game status with function
