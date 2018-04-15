@@ -25,5 +25,9 @@ export default createActions({
   [ActionTypes.GAME_LOAD_STARTED]: (gameId) => ({ gameId }),
   [ActionTypes.GAME_LOAD_SUCCEEDED]: (game) => ({ game }),
   [ActionTypes.GAME_LOAD_FAILED]: (gameId, message) => ({ gameId, message }),
+
+  [ActionTypes.GAME_STATE_UPDATE_REQUESTED]: (game, state) => ({ game, state }),
+  [ActionTypes.GAME_STATE_UPDATE_SUCCEEDED]: (game) => ({ game }),
+  [ActionTypes.GAME_STATE_UPDATE_FAILED]: (game, message) => ({ game, message }),
 });
 

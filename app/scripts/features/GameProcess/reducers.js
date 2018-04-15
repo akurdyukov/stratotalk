@@ -72,5 +72,15 @@ export default {
         status: { $set: 'error' },
       });
     },
+    [CoreActionTypes.GAME_STATE_UPDATE_SUCCEEDED](state, { payload }) {
+      const { game } = payload;
+      if (game.id !== state.game.id) {
+        return state;
+      }
+
+      return immutable(state, {
+        game: { $set: game },
+      });
+    }
   }),
 };

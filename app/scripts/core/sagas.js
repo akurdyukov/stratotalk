@@ -4,7 +4,7 @@ import { ActionTypes } from './constants';
 import actions from './actions';
 
 import { getScenarios, saveScenario, getScenarioById, createChannel } from '../api/scenario';
-import { getGameById } from '../api/game';
+import { getGameById, updateGameState } from '../api/game';
 
 function* getScenariosSaga() {
   const status = yield select(state => state.scenarios.status);
@@ -61,6 +61,15 @@ function* getGameSaga(action) {
   }
 }
 
+function* updateGameStateSaga(action) {
+  const { game, state } = action.payload;
+
+  // TODO: validate state transition
+  const response = yield call(updateGameState, game, state);
+
+  yield put(actions.gameStateUpdateSucceeded(response));
+}
+
 export default function* root() {
   yield all([
     fork(createChannel, actions.scenariosUpdated),
@@ -69,6 +78,7 @@ export default function* root() {
     takeLatest(ActionTypes.SCENARIO_CHANGE_REQUESTED, updateScenario),
 
     takeLatest(ActionTypes.GAME_LOAD_REQUESTED, getGameSaga),
+    takeLatest(ActionTypes.GAME_STATE_UPDATE_REQUESTED, updateGameStateSaga),
   ]);
 }
 

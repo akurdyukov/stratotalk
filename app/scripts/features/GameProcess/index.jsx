@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Grid, Header, Button, Segment, Message } from 'semantic-ui-react';
-import ReactMarkdown from 'react-markdown';
+import { push } from 'react-router-redux';
+
+import { ROUTE_PRIVATE } from '../../constants/routes';
 
 import AppHeader from '../../components/Header';
 import Feature from '../../components/Feature';
 
 import actions from './actions';
 
-import formatScenario from '../../api/formatter';
+import BoardingScreen from './components/BoardingScreen';
+import PreparingScreen from './components/PreparingScreen';
+import RunningScreen from './components/RunningScreen';
+import ScoringScreen from './components/ScoringScreen';
 
 class GameProcess extends React.PureComponent {
     static propTypes = {
@@ -17,45 +21,60 @@ class GameProcess extends React.PureComponent {
       currentEmail: PropTypes.string.isRequired,
       deactivate: PropTypes.func.isRequired,
       game: PropTypes.object, // is null on first load
+      goPrivate: PropTypes.func.isRequired,
       location: PropTypes.object.isRequired,
       match: PropTypes.object.isRequired,
       scenario: PropTypes.object, // is null on first load
+      startPrepare: PropTypes.func.isRequired,
+      startRun: PropTypes.func.isRequired,
+      startScore: PropTypes.func.isRequired,
     };
 
     activateUi = () => {
       this.props.activate(this.props.match.params.id);
     }
 
-    render() {
-      const view = (this.props.scenario !== null && this.props.game !== null) ?
-        formatScenario(this.props.scenario, this.props.game.draw) : null;
-      const roleName = this.props.game !== null ? this.props.game.roles[this.props.currentEmail] : null;
-      const secretText = view !== null ? view.secretTexts[roleName] : null;
+    goToMain = () => {
 
+    }
+
+    getCurrentScreen = () => {
+      if (this.props.game === null) {
+        return null;
+      }
+      switch (this.props.game.state) {
+        case 'BOARDING':
+          return (
+            <BoardingScreen game={this.props.game} scenario={this.props.scenario} nextAction={this.props.startPrepare} />
+          );
+        case 'PREPARING':
+          return (
+            <PreparingScreen
+              currentEmail={this.props.currentEmail}
+              game={this.props.game}
+              scenario={this.props.scenario}
+              nextAction={this.props.startRun}
+            />
+          );
+        case 'RUNNING':
+          return (
+            <RunningScreen game={this.props.game} scenario={this.props.scenario} nextAction={this.props.startScore} />
+          );
+        case 'SCORING':
+          return (
+            <ScoringScreen game={this.props.game} scenario={this.props.scenario} nextAction={() => this.props.goPrivate()} />
+          );
+        default:
+          return null;
+      }
+    }
+
+    render() {
       return (
         <Feature onActivate={this.activateUi} onDeactivate={this.props.deactivate}>
           <AppHeader location={this.props.location} />
-          <Segment loading={view === null}>
-            <Grid columns={2}>
-              <Grid.Row>
-                <Grid.Column>
-                  <Header as="h1">Общие вводные</Header>
 
-                  { view && (
-                    <ReactMarkdown source={view.commonText} />
-                  )}
-                </Grid.Column>
-                <Grid.Column>
-                  <Header as="h1">Тайные вводные роли {roleName}</Header>
-
-                  { secretText && (
-                    <ReactMarkdown source={secretText} />
-                  )}
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-            <Button floated="right" primary>Дальше</Button>
-          </Segment>
+          {this.getCurrentScreen()}
         </Feature>
       );
     }
@@ -68,4 +87,8 @@ export default connect((state) => ({
 }), {
   activate: actions.gameProcessActivated,
   deactivate: actions.gameProcessDeactivated,
+  startPrepare: actions.gameStartPrepare,
+  startRun: actions.gameStartRun,
+  startScore: actions.gameStartScore,
+  goPrivate: () => push(ROUTE_PRIVATE),
 })(GameProcess);
