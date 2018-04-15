@@ -4,6 +4,7 @@ import { ActionTypes } from './constants';
 import actions from './actions';
 
 import { getScenarios, saveScenario, getScenarioById, createChannel } from '../api/scenario';
+import { getGameById } from '../api/game';
 
 function* getScenariosSaga() {
   const status = yield select(state => state.scenarios.status);
@@ -46,12 +47,28 @@ function* updateScenario(action) {
   }
 }
 
+function* getGameSaga(action) {
+  const { gameId } = action.payload;
+
+  yield put(actions.gameLoadStarted(gameId));
+
+  try {
+    const response = yield call(getGameById, gameId);
+    yield put(actions.gameLoadSucceeded(response));
+  } catch (err) {
+    /* istanbul ignore next */
+    yield put(actions.gameLoadFailed(gameId, err));
+  }
+}
+
 export default function* root() {
   yield all([
     fork(createChannel, actions.scenariosUpdated),
     takeLatest(ActionTypes.SCENARIOS_LOAD_REQUESTED, getScenariosSaga),
     takeLatest(ActionTypes.SCENARIO_LOAD_REQUESTED, getScenarioSaga),
     takeLatest(ActionTypes.SCENARIO_CHANGE_REQUESTED, updateScenario),
+
+    takeLatest(ActionTypes.GAME_LOAD_REQUESTED, getGameSaga),
   ]);
 }
 

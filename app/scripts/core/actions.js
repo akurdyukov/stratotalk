@@ -8,7 +8,7 @@ export default createActions({
   [ActionTypes.SCENARIO_LOAD_REQUESTED]: (scenarioId) => ({ scenarioId }),
   [ActionTypes.SCENARIO_LOAD_STARTED]: (scenarioId) => ({ scenarioId }),
   [ActionTypes.SCENARIO_LOAD_SUCCEEDED]: (scenario) => ({ scenario }),
-  [ActionTypes.SCENARIO_LOAD_FAILED]: (scenarioId, error) => ({ scenarioId, error }),
+  [ActionTypes.SCENARIO_LOAD_FAILED]: (scenarioId, message) => ({ scenarioId, message }),
 
   [ActionTypes.SCENARIOS_UPDATED]: (scenarios) => ({ scenarios }),
 
@@ -20,5 +20,10 @@ export default createActions({
   [ActionTypes.SCENARIO_CHANGE_REQUESTED]: (scenario) => ({ scenario }),
   [ActionTypes.SCENARIO_CHANGE_SUCCEEDED]: (scenario) => ({ scenario }),
   [ActionTypes.SCENARIO_CHANGE_FAILED]: (scenario, error) => ({ scenario, error }),
+
+  [ActionTypes.GAME_LOAD_REQUESTED]: (gameId) => ({ gameId }),
+  [ActionTypes.GAME_LOAD_STARTED]: (gameId) => ({ gameId }),
+  [ActionTypes.GAME_LOAD_SUCCEEDED]: (game) => ({ game }),
+  [ActionTypes.GAME_LOAD_FAILED]: (gameId, message) => ({ gameId, message }),
 });
 

@@ -16,5 +16,10 @@ export const ActionTypes = keyMirror({
   SCENARIO_CHANGE_REQUESTED: undefined,
   SCENARIO_CHANGE_SUCCEEDED: undefined,
   SCENARIO_CHANGE_FAILED: undefined,
+
+  GAME_LOAD_REQUESTED: undefined,
+  GAME_LOAD_STARTED: undefined,
+  GAME_LOAD_SUCCEEDED: undefined,
+  GAME_LOAD_FAILED: undefined,
 });
 

@@ -30,9 +30,9 @@ class GameCreator extends React.PureComponent {
     };
 
     handleCreate = () => {
-      const { selectedScenario, selectRole } = this.props;
-      if (selectedScenario && selectRole) {
-        this.props.createGame(selectedScenario.id, selectRole);
+      const { selectedScenario, selectedRole } = this.props;
+      if (selectedScenario && selectedRole) {
+        this.props.createGame(selectedScenario, selectedRole);
       }
     }
 

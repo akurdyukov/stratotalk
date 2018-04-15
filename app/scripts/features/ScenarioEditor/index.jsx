@@ -28,11 +28,16 @@ class ScenarioEditor extends React.PureComponent {
 
   render() {
     const isLoading = this.props.status === 'running';
+    const details = this.props.scenario === null ? (
+      <Header as="h1">Сценарий ???</Header>
+    ) : (
+      <Header as="h1">Сценарий &laquo;{this.props.scenario.name}&raquo; ({this.props.scenario.id})</Header>
+    );
     return (
       <Feature onActivate={this.activateEditor} onDeactivate={this.props.deactivate}>
         <AppHeader location={this.props.location} />
         <Segment loading={isLoading}>
-          <Header as="h1">Сценарий</Header>
+          {details}
 
           {this.props.scenario !== null && (
             <Scenario

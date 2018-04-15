@@ -3,6 +3,7 @@ import main from '../features/Private/reducers';
 import scenarios from '../features/Scenarios/reducers';
 import scenarioEditor from '../features/ScenarioEditor/reducers';
 import gameCreator from '../features/GameCreator/reducers';
+import gameProcess from '../features/GameProcess/reducers';
 
 export default {
   ...framework,
@@ -10,4 +11,5 @@ export default {
   ...scenarios,
   ...scenarioEditor,
   ...gameCreator,
+  ...gameProcess,
 };

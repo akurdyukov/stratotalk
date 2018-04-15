@@ -14,10 +14,10 @@ function* activateGameCreator() {
 }
 
 function* createGameSaga(action) {
-  const { scenarioId, role } = action.payload;
+  const { scenario, role } = action.payload;
   const email = yield select(state => state.user.user.email);
   try {
-    const game = yield call(createGame, scenarioId, email, role);
+    const game = yield call(createGame, scenario, email, role);
     yield put(actions.gameCreationSuccess(game));
     yield put(push(ROUTE_PRIVATE)); // go to games list
   } catch (err) {

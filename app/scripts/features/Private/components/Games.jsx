@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Loader, Button } from 'semantic-ui-react';
+import { Table, Loader } from 'semantic-ui-react';
 import _ from 'lodash';
+
+import GameItem from './GameItem';
 
 export default class Games extends React.PureComponent {
   static propTypes = {
@@ -13,10 +15,10 @@ export default class Games extends React.PureComponent {
 
   getScenarioName = (id) => {
     if (this.props.scenarios.length === 0) {
-      return (<Loader active inline="centered" size="mini" />);
+      return null;
     }
     const scenario = _.find(this.props.scenarios, (s) => s.id === id);
-    return scenario ? scenario.name : null;
+    return scenario ? (scenario.name) : null;
   }
 
   canJoin = () => (_.find(this.props.games, (g) => (this.props.currentEmail in g.roles)) === undefined);
@@ -34,20 +36,14 @@ export default class Games extends React.PureComponent {
         </Table.Header>
         <Table.Body>
           {this.props.games.map(g => (
-            <Table.Row key={g.id}>
-              <Table.Cell>{this.getScenarioName(g.scenarioId)}</Table.Cell>
-              <Table.Cell>
-                {_.toPairs(g.roles).map(([email, role]) => (
-                  <span key={role}>{email} ({role})</span>
-                ))}
-              </Table.Cell>
-              <Table.Cell>{g.startDate.fromNow()}</Table.Cell>
-              <Table.Cell>
-                {this.canJoin() && (
-                  <Button onClick={() => { this.props.join(g, this.props.currentEmail); }} size="tiny">Войти</Button>
-                )}
-              </Table.Cell>
-            </Table.Row>
+            <GameItem
+              key={g.id}
+              game={g}
+              currentEmail={this.props.currentEmail}
+              join={this.props.join}
+              scenarioName={this.getScenarioName(g.scenarioId)}
+              canJoin={this.canJoin()}
+            />
           ))}
         </Table.Body>
       </Table>
