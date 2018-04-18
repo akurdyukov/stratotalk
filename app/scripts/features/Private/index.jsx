@@ -10,7 +10,7 @@ import AppHeader from '../../components/Header';
 import Feature from '../../components/Feature';
 
 import actions from './actions';
-import { ROUTE_GAME_CREATOR } from '../../constants/routes';
+import { ROUTE_GAME_CREATOR, ROUTE_GAME_JOIN } from '../../constants/routes';
 
 class Private extends React.PureComponent {
   static propTypes = {
@@ -49,12 +49,12 @@ class Private extends React.PureComponent {
 const mapStateToProps = (state) => ({
   games: state.main.games,
   scenarios: state.scenarios.all,
-  currentEmail: state.user.user.email,
+  currentEmail: state.user.user !== null ? state.user.user.email : '',
 });
 
 export default connect(mapStateToProps, {
   activate: actions.mainActivated,
   deactivate: actions.mainDeactivated,
-  join: actions.joinGame,
+  join: (gameId) => push(ROUTE_GAME_JOIN.replace(':id', gameId)),
   createNewGame: () => push(ROUTE_GAME_CREATOR),
 })(Private);

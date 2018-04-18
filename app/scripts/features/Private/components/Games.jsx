@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Loader } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import _ from 'lodash';
 
 import GameItem from './GameItem';
@@ -39,7 +39,6 @@ export default class Games extends React.PureComponent {
             <GameItem
               key={g.id}
               game={g}
-              currentEmail={this.props.currentEmail}
               join={this.props.join}
               scenarioName={this.getScenarioName(g.scenarioId)}
               canJoin={this.canJoin()}

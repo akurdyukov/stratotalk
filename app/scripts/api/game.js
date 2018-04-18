@@ -2,8 +2,12 @@
 import uuid from 'uuid-random';
 import _ from 'lodash';
 import moment from 'moment';
+import { call, put, take } from 'redux-saga/effects';
+
 import type { Scenario } from './scenario';
+
 import makeDraw from './generator';
+import rsf from './rsf';
 
 type State = 'BOARDING' | 'CANCELLED' | 'WAITING' | 'PREPARING' | 'RUNNING' | 'SCORING' | 'FINISHED';
 
@@ -18,7 +22,6 @@ type Game = {
   state: State,
   scenarioId: string,
   roles: EmailToRole,
-  startTime: moment,
   draw: any,
 };
 
@@ -30,7 +33,6 @@ const activeGames: Array<Game> = [
     roles: {
       'akurdyukov@gmail.com': 'ПМ',
     },
-    startDate: moment().add(10, 'seconds'),
     draw: {
       substitutions: {
         'Срок работы ПМ': 'всего месяц как',
@@ -65,53 +67,62 @@ const activeGames: Array<Game> = [
   },
 ];
 
+const COLLECTION = 'games';
+
+export function* save(game: Game): Saga<Game> {
+  const ref = `${COLLECTION}/${game.id}`;
+  yield call(rsf.firestore.setDocument, ref, game);
+  return game;
+}
+
 /**
  * Create new game and join it
  */
-export function createGame(scenario: Scenario, email: string, role: DesiredRole): Promise<Game> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // TODO: check no active game for current user
-      const newGame: Game = {
-        id: uuid(),
-        state: 'BOARDING',
-        scenarioId: scenario.id,
-        roles: {
-          [email]: role,
-        },
-        startDate: moment().add(10, 'seconds'),
-        draw: makeDraw(scenario),
-      };
-      activeGames.push(newGame);
+export function* createGame(scenario: Scenario, email: string, role: DesiredRole): Saga<Game> {
+  const game: Game = {
+    id: uuid(),
+    state: 'BOARDING',
+    scenarioId: scenario.id,
+    roles: {
+      [email]: role,
+    },
+    draw: makeDraw(scenario),
+  };
 
-      resolve(newGame);
-    }, 0);
-  });
+  return yield save(game);
 }
 
-export function listActiveGames(): Promise<Array<Game>> {
-  return new Promise((resolve) => {
-    resolve(activeGames);
-  });
+export function* listActiveGames(): Saga<Array<Game>> {
+  const snapshot = yield call(rsf.firestore.getCollection, COLLECTION);
+  return snapshot.docs.map((item) => item.data());
 }
 
-export function getGameById(gameId: string): Promise<Game> {
-  return new Promise((resolve, reject) => {
-    listActiveGames().then((games) => {
-      const game = _.find(games, (g) => (g.id === gameId));
-      if (game !== undefined) {
-        resolve(game);
-      } else {
-        reject(`Game ${gameId} not found`);
-      }
-    }).catch((err) => {
-      reject(err);
-    });
-  });
+export function* getGameById(id: string): Saga<Game> {
+  const ref = `${COLLECTION}/${id}`;
+  const doc = yield call(rsf.firestore.getDocument, ref);
+  if (doc.exists) {
+    return doc.data();
+  }
+  return null;
 }
 
-export function updateGameState(game: Game, state: State): Promise<Game> {
-  return Promise.resolve({ ...game, state });
+export function* updateGameState(game: Game, state: State): Saga<Game> {
+  const updated = { ...game, state };
+  return yield save(updated);
+}
+
+export function* remove(id: string): Saga<Void> {
+  const ref = `${COLLECTION}/${id}`;
+  yield call(rsf.firestore.deleteDocument, ref);
+}
+
+export function* createChannel(updateGames): Saga<Void> {
+  const channel = rsf.firestore.channel(COLLECTION);
+
+  while (true) {
+    const updates = yield take(channel);
+    yield put(updateGames(updates.docs.map((item) => item.data())));
+  }
 }
 
 export function joinGame(gameId: string, email: string, role: DesiredRole): Promise<Game> {

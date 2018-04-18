@@ -7,6 +7,7 @@ import scenarios from '../features/Scenarios/sagas';
 import scenarioEditor from '../features/ScenarioEditor/sagas';
 import gameCreator from '../features/GameCreator/sagas';
 import gameProcess from '../features/GameProcess/sagas';
+import gameJoiner from '../features/GameJoiner/sagas';
 
 /**
  * rootSaga
@@ -20,5 +21,6 @@ export default function* root() {
     fork(scenarioEditor),
     fork(gameCreator),
     fork(gameProcess),
+    fork(gameJoiner),
   ]);
 }

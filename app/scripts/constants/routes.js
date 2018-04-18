@@ -5,3 +5,4 @@ export const ROUTE_SCENARIO_EDIT = '/private/scenario/:id';
 
 export const ROUTE_GAME_CREATOR = '/private/newGame';
 export const ROUTE_GAME_PROCESS = '/private/game/:id';
+export const ROUTE_GAME_JOIN = '/private/join/:id';

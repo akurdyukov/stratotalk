@@ -5,7 +5,6 @@ import keyMirror from 'fbjs/lib/keyMirror';
  * @memberof Constants
  */
 export const ActionTypes = keyMirror({
-  MAIN_ACTIVATED: undefined,
-  MAIN_DEACTIVATED: undefined,
+  GAME_JOINER_ACTIVATED: undefined,
+  GAME_JOINER_DEACTIVATED: undefined,
 });
-

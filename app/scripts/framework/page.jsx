@@ -19,6 +19,7 @@ import Scenarios from '../features/Scenarios';
 import GameCreator from '../features/GameCreator';
 import ScenarioEditor from '../features/ScenarioEditor';
 import GameProcess from '../features/GameProcess';
+import GameJoiner from '../features/GameJoiner';
 
 import SystemAlerts from '../components/SystemAlerts';
 
@@ -28,7 +29,8 @@ import {
   ROUTE_ROOT,
   ROUTE_GAME_CREATOR,
   ROUTE_SCENARIO_EDIT,
-  ROUTE_GAME_PROCESS } from '../constants/routes';
+  ROUTE_GAME_PROCESS,
+  ROUTE_GAME_JOIN } from '../constants/routes';
 
 export class App extends React.Component {
   static propTypes = {
@@ -73,6 +75,7 @@ export class App extends React.Component {
               <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_SCENARIO_EDIT} component={ScenarioEditor} />
               <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_GAME_CREATOR} component={GameCreator} />
               <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_GAME_PROCESS} component={GameProcess} />
+              <RoutePrivate isAuthenticated={user.isAuthenticated} path={ROUTE_GAME_JOIN} component={GameJoiner} />
               <Route component={NotFound} />
             </Switch>
           </main>

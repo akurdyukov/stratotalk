@@ -25,5 +25,11 @@ export const ActionTypes = keyMirror({
   GAME_STATE_UPDATE_REQUESTED: undefined,
   GAME_STATE_UPDATE_SUCCEEDED: undefined,
   GAME_STATE_UPDATE_FAILED: undefined,
+
+  GAMES_LOAD_REQUESTED: undefined,
+  GAMES_LOAD_SUCCEEDED: undefined,
+  GAMES_LOAD_FAILED: undefined,
+
+  GAMES_UPDATED: undefined,
 });
 

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Radio } from 'semantic-ui-react';
 
+import { ROLE_WATCHER } from '../../../constants/roles';
+
 export default class RoleSelector extends React.PureComponent {
     static propTypes = {
       roles: PropTypes.array,
@@ -23,6 +25,15 @@ export default class RoleSelector extends React.PureComponent {
               name="roleGroup"
               value=""
               checked={this.props.selectedRole === null}
+              onChange={this.handleChange}
+            />
+          </Form.Field>
+          <Form.Field key="$watcher$">
+            <Radio
+              label="Хочу только наблюдать"
+              name="roleGroup"
+              value={ROLE_WATCHER}
+              checked={this.props.selectedRole === ROLE_WATCHER}
               onChange={this.handleChange}
             />
           </Form.Field>

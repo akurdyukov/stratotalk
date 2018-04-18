@@ -10,7 +10,6 @@ import { ROUTE_GAME_PROCESS } from '../../../constants/routes';
 export default class GameItem extends React.PureComponent {
   static propTypes = {
     canJoin: PropTypes.bool.isRequired,
-    currentEmail: PropTypes.string.isRequired, // current user email
     game: PropTypes.object,
     join: PropTypes.func.isRequired, // action for 'join the game'
     scenarioName: PropTypes.string, // null if loading
@@ -32,10 +31,10 @@ export default class GameItem extends React.PureComponent {
             <span key={role}>{email} ({role})</span>
           ))}
         </Table.Cell>
-        <Table.Cell>{g.startDate.fromNow()}</Table.Cell>
+        <Table.Cell />
         <Table.Cell>
           {this.props.canJoin && (
-            <Button onClick={() => { this.props.join(g, this.props.currentEmail); }} size="tiny">Войти</Button>
+            <Button onClick={() => { this.props.join(g.id); }} size="tiny">Войти</Button>
           )}
         </Table.Cell>
       </Table.Row>
