@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-
-import { ROUTE_PRIVATE } from '../../constants/routes';
+import { Segment, Button } from 'semantic-ui-react';
+import _ from 'lodash';
 
 import AppHeader from '../../components/Header';
 import Feature from '../../components/Feature';
 
 import actions from './actions';
+
+import RoleSelector from './components/RoleSelector';
 
 class GameJoiner extends React.PureComponent {
     static propTypes = {
@@ -16,37 +17,52 @@ class GameJoiner extends React.PureComponent {
       currentEmail: PropTypes.string.isRequired,
       deactivate: PropTypes.func.isRequired,
       game: PropTypes.object, // is null on first load
-      goPrivate: PropTypes.func.isRequired,
+      joinGame: PropTypes.func.isRequired,
       location: PropTypes.object.isRequired,
       match: PropTypes.object.isRequired,
       scenario: PropTypes.object, // is null on first load
+      selectedRole: PropTypes.string,
+      selectRole: PropTypes.func.isRequired,
     };
 
     activateUi = () => {
       this.props.activate(this.props.match.params.id);
     }
 
-    goToMain = () => {
-
-    }
-
     render() {
+      const isLoading = this.props.scenario === null || this.props.game === null;
       return (
         <Feature onActivate={this.activateUi} onDeactivate={this.props.deactivate}>
           <AppHeader location={this.props.location} />
+          <Segment loading={isLoading}>
+            {!isLoading && (
+              <RoleSelector
+                roles={this.props.scenario.roles}
+                selectedRole={this.props.selectedRole}
+                selectRole={this.props.selectRole}
+                usedRoles={_.values(this.props.game.roles)}
+              />
+            )}
 
-          Тут будет выбор роли
+            <Button
+              disabled={this.props.selectedRole === null}
+              onClick={() => this.props.joinGame(this.props.game, this.props.currentEmail, this.props.selectedRole)}
+            >Войти
+            </Button>
+          </Segment>
         </Feature>
       );
     }
 }
 
 export default connect((state) => ({
-  scenario: state.gameProcess.scenario,
-  game: state.gameProcess.game,
+  scenario: state.gameJoiner.scenario,
+  game: state.gameJoiner.game,
   currentEmail: state.user.user.email,
+  selectedRole: state.gameJoiner.selectedRole,
 }), {
   activate: actions.gameJoinerActivated,
   deactivate: actions.gameJoinerDeactivated,
-  goPrivate: () => push(ROUTE_PRIVATE),
+  selectRole: actions.gameJoinerSelectRole,
+  joinGame: actions.gameJoinerJoinGame,
 })(GameJoiner);

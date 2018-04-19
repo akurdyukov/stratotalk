@@ -21,7 +21,7 @@ export default class Games extends React.PureComponent {
     return scenario ? (scenario.name) : null;
   }
 
-  canJoin = () => (_.find(this.props.games, (g) => (this.props.currentEmail in g.roles)) === undefined);
+  canJoin = (game) => (!(this.props.currentEmail in game.roles));
 
   render() {
     return (
@@ -41,7 +41,7 @@ export default class Games extends React.PureComponent {
               game={g}
               join={this.props.join}
               scenarioName={this.getScenarioName(g.scenarioId)}
-              canJoin={this.canJoin()}
+              canJoin={this.canJoin(g)}
             />
           ))}
         </Table.Body>

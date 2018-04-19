@@ -10,6 +10,7 @@ export const initState = {
   game: null, // game object
   status: 'idle',
   errorMessage: '', // error message
+  selectedRole: null, // selected role
 };
 
 export default {
@@ -22,6 +23,13 @@ export default {
         scenario: { $set: null },
         game: { $set: null },
         errorMessage: { $set: '' },
+        selectedRole: { $set: null },
+      });
+    },
+    [ActionTypes.GAME_JOINER_SELECT_ROLE](state, { payload }) {
+      const { role } = payload;
+      return immutable(state, {
+        selectedRole: { $set: role },
       });
     },
     [CoreActionTypes.SCENARIO_LOAD_SUCCEEDED](state, { payload }) {

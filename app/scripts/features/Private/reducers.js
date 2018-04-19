@@ -21,6 +21,7 @@ export default {
     },
     [CoreActionTypes.GAMES_UPDATED](state, { payload }) {
       const { games } = payload;
+      // TODO: filter active (?)
       return immutable(state, {
         games: { $set: games },
         activeGame: { $set: null },

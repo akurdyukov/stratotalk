@@ -28,7 +28,7 @@ export default class GameItem extends React.PureComponent {
         <Table.Cell><Link to={dest}>{name}</Link></Table.Cell>
         <Table.Cell>
           {_.toPairs(g.roles).map(([email, role]) => (
-            <span key={role}>{email} ({role})</span>
+            <div key={role}>{email} ({role})</div>
           ))}
         </Table.Cell>
         <Table.Cell />
