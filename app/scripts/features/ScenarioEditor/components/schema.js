@@ -38,7 +38,7 @@ export const schema = {
     Variant: {
       type: 'object',
       title: 'Вариант',
-      required: ['name', 'description', 'substitutions'],
+      required: ['name', 'description'],
       properties: {
         name: { type: 'string', title: 'Название варианта' },
         description: { type: 'string', title: 'Тайный текст для варианта' },
@@ -48,6 +48,7 @@ export const schema = {
           items: {
             $ref: '#/definitions/Substitution',
           },
+          default: [],
         },
 
       },

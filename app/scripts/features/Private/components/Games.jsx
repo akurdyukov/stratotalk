@@ -4,6 +4,7 @@ import { Table } from 'semantic-ui-react';
 import _ from 'lodash';
 
 import GameItem from './GameItem';
+import { GameStates } from '../../../constants/gameStates';
 
 export default class Games extends React.PureComponent {
   static propTypes = {
@@ -21,7 +22,7 @@ export default class Games extends React.PureComponent {
     return scenario ? (scenario.name) : null;
   }
 
-  canJoin = (game) => (!(this.props.currentEmail in game.roles));
+  canJoin = (game) => (!(this.props.currentEmail in game.roles) && game.state === GameStates.BOARDING);
 
   render() {
     return (
@@ -30,7 +31,7 @@ export default class Games extends React.PureComponent {
           <Table.Row>
             <Table.HeaderCell>Название</Table.HeaderCell>
             <Table.HeaderCell>Участники</Table.HeaderCell>
-            <Table.HeaderCell>Начало</Table.HeaderCell>
+            <Table.HeaderCell>Состояние</Table.HeaderCell>
             <Table.HeaderCell>Действия</Table.HeaderCell>
           </Table.Row>
         </Table.Header>

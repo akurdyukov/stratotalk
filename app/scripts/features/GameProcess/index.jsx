@@ -10,6 +10,8 @@ import Feature from '../../components/Feature';
 
 import actions from './actions';
 
+import { GameStates } from '../../constants/gameStates';
+
 import BoardingScreen from './components/BoardingScreen';
 import PreparingScreen from './components/PreparingScreen';
 import RunningScreen from './components/RunningScreen';
@@ -34,20 +36,16 @@ class GameProcess extends React.PureComponent {
       this.props.activate(this.props.match.params.id);
     }
 
-    goToMain = () => {
-
-    }
-
     getCurrentScreen = () => {
-      if (this.props.game === null) {
+      if (this.props.game === null || this.props.game === undefined) {
         return null;
       }
       switch (this.props.game.state) {
-        case 'BOARDING':
+        case GameStates.BOARDING:
           return (
             <BoardingScreen game={this.props.game} scenario={this.props.scenario} nextAction={this.props.startPrepare} />
           );
-        case 'PREPARING':
+        case GameStates.PREPARING:
           return (
             <PreparingScreen
               currentEmail={this.props.currentEmail}
@@ -56,11 +54,11 @@ class GameProcess extends React.PureComponent {
               nextAction={this.props.startRun}
             />
           );
-        case 'RUNNING':
+        case GameStates.RUNNING:
           return (
             <RunningScreen game={this.props.game} scenario={this.props.scenario} nextAction={this.props.startScore} />
           );
-        case 'SCORING':
+        case GameStates.SCORING:
           return (
             <ScoringScreen game={this.props.game} scenario={this.props.scenario} nextAction={() => this.props.goPrivate()} />
           );

@@ -8,8 +8,9 @@ import type { Scenario } from './scenario';
 
 import makeDraw from './generator';
 import rsf from './rsf';
+import { GameStates } from '../constants/gameStates';
 
-type State = 'BOARDING' | 'CANCELLED' | 'WAITING' | 'PREPARING' | 'RUNNING' | 'SCORING' | 'FINISHED';
+type State = 'BOARDING' | 'PREPARING' | 'RUNNING' | 'SCORING';
 
 type Role = string;
 
@@ -28,7 +29,7 @@ type Game = {
 const activeGames: Array<Game> = [
   {
     id: 'savedGame1',
-    state: 'BOARDING',
+    state: GameStates.BOARDING,
     scenarioId: 'scenario1',
     roles: {
       'akurdyukov@gmail.com': 'ПМ',
@@ -81,7 +82,7 @@ export function* save(game: Game): Saga<Game> {
 export function* createGame(scenario: Scenario, email: string, role: DesiredRole): Saga<Game> {
   const game: Game = {
     id: uuid(),
-    state: 'BOARDING',
+    state: GameStates.BOARDING,
     scenarioId: scenario.id,
     roles: {
       [email]: role,
@@ -123,34 +124,4 @@ export function* createChannel(updateGames): Saga<Void> {
     const updates = yield take(channel);
     yield put(updateGames(updates.docs.map((item) => item.data())));
   }
-}
-
-export function joinGame(gameId: string, email: string, role: DesiredRole): Promise<Game> {
-  return new Promise((resolve, reject) => {
-    listActiveGames().then((games) => {
-      // find the game
-      const game = _.find(games, g => g.id === gameId);
-      if (!game) {
-        reject(`Game ${gameId} not found.`);
-        return;
-      }
-      // check is user already joined
-      const currentRole = _.findKey(game.roles, k => k === email);
-      if (currentRole) {
-        reject(`User ${email} already joined`);
-        return;
-      }
-      // check role is not occupied already
-      if (role !== null) {
-        const foundRole = _.find(game.roles, (v) => v === role);
-        if (foundRole !== undefined) {
-          reject(`Role ${role} already occupied`);
-          return;
-        }
-      }
-      // do add
-      game.roles[email] = role;
-      // TODO: save
-    }).catch((err) => reject(err));
-  });
 }

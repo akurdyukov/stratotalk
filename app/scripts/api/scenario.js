@@ -176,8 +176,8 @@ export function* saveScenario(scenario: Scenario, user: User): Saga<Scenario> {
       name: user.displayName,
     },
   };
-  const doc = yield call(rsf.firestore.setDocument, ref, updated);
-  return doc.data();
+  yield call(rsf.firestore.setDocument, ref, updated);
+  return updated;
 }
 
 export function* createScenario(user: User): Saga<Scenario> {

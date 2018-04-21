@@ -1,6 +1,7 @@
 import immutable from 'immutability-helper';
-import { createReducer } from '../../modules/helpers';
+import _ from 'lodash';
 
+import { createReducer } from '../../modules/helpers';
 import { ActionTypes } from './constants';
 import { ActionTypes as CoreActionTypes } from '../../core/constants';
 
@@ -26,7 +27,7 @@ export default {
     },
     [CoreActionTypes.SCENARIO_LOAD_SUCCEEDED](state, { payload }) {
       const { scenario } = payload;
-      if (state.game === null || state.game.scenarioId !== scenario.id) {
+      if (state.game === undefined || state.game === null || state.game.scenarioId !== scenario.id) {
         return state;
       }
 
@@ -81,6 +82,13 @@ export default {
       return immutable(state, {
         game: { $set: game },
       });
-    }
+    },
+    [CoreActionTypes.GAMES_UPDATED](state, { payload }) {
+      const { games } = payload;
+      const game = _.find(games, (g) => g.id === state.gameId);
+      return immutable(state, {
+        game: { $set: game },
+      });
+    },
   }),
 };

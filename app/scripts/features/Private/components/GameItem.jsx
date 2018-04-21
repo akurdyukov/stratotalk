@@ -5,7 +5,8 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom';
 
 import { ROUTE_GAME_PROCESS } from '../../../constants/routes';
-
+import { GameStates } from '../../../constants/gameStates';
+import { ROLE_WATCHER } from '../../../constants/roles';
 
 export default class GameItem extends React.PureComponent {
   static propTypes = {
@@ -13,6 +14,25 @@ export default class GameItem extends React.PureComponent {
     game: PropTypes.object,
     join: PropTypes.func.isRequired, // action for 'join the game'
     scenarioName: PropTypes.string, // null if loading
+  }
+
+  getGameState = () => {
+    switch (this.props.game.state) {
+      case GameStates.BOARDING:
+        return 'Собирается';
+      case GameStates.PREPARING:
+        return 'Подготовка';
+      case GameStates.RUNNING:
+        return 'Переговоры';
+      case GameStates.SCORING:
+        return 'Оценка';
+      default:
+        return '???';
+    }
+  }
+
+  getReadableRole = (role) => {
+    return (role === ROLE_WATCHER) ? 'Наблюдатель' : role;
   }
 
   render() {
@@ -28,10 +48,12 @@ export default class GameItem extends React.PureComponent {
         <Table.Cell><Link to={dest}>{name}</Link></Table.Cell>
         <Table.Cell>
           {_.toPairs(g.roles).map(([email, role]) => (
-            <div key={role}>{email} ({role})</div>
+            <div key={role}>{email} ({this.getReadableRole(role)})</div>
           ))}
         </Table.Cell>
-        <Table.Cell />
+        <Table.Cell>
+          {this.getGameState()}
+        </Table.Cell>
         <Table.Cell>
           {this.props.canJoin && (
             <Button onClick={() => { this.props.join(g.id); }} size="tiny">Войти</Button>

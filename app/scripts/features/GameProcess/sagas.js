@@ -4,6 +4,7 @@ import { ActionTypes } from './constants';
 import coreActions from '../../core/actions';
 import actions from './actions';
 import { ActionTypes as CoreActionTypes } from '../../core/constants';
+import { GameStates } from '../../constants/gameStates';
 
 function* activateSaga(action) {
   const { gameId } = action.payload;
@@ -28,10 +29,10 @@ function* startPrepareSaga() {
     return;
   }
 
-  if (game.state !== 'BOARDING') {
+  if (game.state !== GameStates.BOARDING) {
     yield put(actions.gamePrepareStartFailed('Invalid game state'));
   } else {
-    yield put(coreActions.gameStateUpdateRequested(game, 'PREPARING'));
+    yield put(coreActions.gameStateUpdateRequested(game, GameStates.PREPARING));
   }
 }
 
@@ -42,10 +43,10 @@ function* startRunSaga() {
     return;
   }
 
-  if (game.state !== 'PREPARING') {
+  if (game.state !== GameStates.PREPARING) {
     yield put(actions.gamePrepareStartFailed('Invalid game state'));
   } else {
-    yield put(coreActions.gameStateUpdateRequested(game, 'RUNNING'));
+    yield put(coreActions.gameStateUpdateRequested(game, GameStates.RUNNING));
   }
 }
 
@@ -56,10 +57,10 @@ function* startScoreSaga() {
     return;
   }
 
-  if (game.state !== 'RUNNING') {
+  if (game.state !== GameStates.RUNNING) {
     yield put(actions.gamePrepareStartFailed('Invalid game state'));
   } else {
-    yield put(coreActions.gameStateUpdateRequested(game, 'SCORING'));
+    yield put(coreActions.gameStateUpdateRequested(game, GameStates.SCORING));
   }
 }
 

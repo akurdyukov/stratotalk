@@ -7,7 +7,7 @@ import coreActions from '../../core/actions';
 
 import { createGame } from '../../api/game';
 
-import { ROUTE_PRIVATE } from '../../constants/routes';
+import { ROUTE_GAME_PROCESS } from '../../constants/routes';
 
 function* activateGameCreator() {
   yield put(coreActions.scenariosLoadRequested());
@@ -19,7 +19,7 @@ function* createGameSaga(action) {
   try {
     const game = yield call(createGame, scenario, email, role);
     yield put(actions.gameCreationSuccess(game));
-    yield put(push(ROUTE_PRIVATE)); // go to games list
+    yield put(push(ROUTE_GAME_PROCESS.replace(':id', game.id))); // go to game process
   } catch (err) {
     yield put(actions.gameCreationFail(err));
   }
