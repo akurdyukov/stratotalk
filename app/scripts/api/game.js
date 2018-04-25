@@ -88,6 +88,9 @@ export function* createGame(scenario: Scenario, email: string, role: DesiredRole
       [email]: role,
     },
     draw: makeDraw(scenario),
+    stateStarts: {
+      [GameStates.BOARDING]: Date.now(),
+    },
   };
 
   return yield save(game);
@@ -108,7 +111,9 @@ export function* getGameById(id: string): Saga<Game> {
 }
 
 export function* updateGameState(game: Game, state: State): Saga<Game> {
-  const updated = { ...game, state };
+  const stateStarts = game.stateStarts !== undefined ? game.stateStarts : {};
+  stateStarts[state] = Date.now();
+  const updated = { ...game, state, stateStarts };
   return yield save(updated);
 }
 
